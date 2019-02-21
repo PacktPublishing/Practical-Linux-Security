@@ -1,0 +1,27 @@
+##Below is the list of commands that will create the iptables rules shown in the demo
+
+##INPUT Table
+iptables -A INPUT -m set --match-set goodguys src -j ACCEPT #allow traffic from good guys
+iptables -A INPUT -p udp -m set --match-set dns src -m udp --sport 53 -j ACCEPT #allow DNS traffic from known DNS resolvers
+iptables -A INPUT -i lo -j ACCEPT #allow traffic from local interface
+iptables -A INPUT -p tcp -m set --match-set badguys src -j REJECT --reject-with tcp-reset #block tcp traffic from badguys
+iptables -A INPUT -p udp -m set --match-set badguys src -j REJECT --reject-with icmp-port-unreachable #block udp traffic from badguys
+iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT #allow established,related connections
+iptables -A INPUT -i eth0 -p tcp -m set --match-set lantcp dst -j ACCEPT #allow LAN traffic to open tcp ports
+iptables -A INPUT -i eth0 -p udp -m set --match-set lanudp dst -j ACCEPT #allow LAN traffic to open udp ports
+iptables -A INPUT -i eth1 -p tcp -m set --match-set publictcp dst -j ACCEPT #allow WAN traffic to open tcp ports
+iptables -A INPUT -i eth1 -p tcp -m set ! --match-set publictcp dst -j test #send suspicious tcp WAN traffic to test table
+iptables -A INPUT -i eth1 -p udp -j test #send suspicious udp WAN traffic to test table
+iptables -A INPUT -m conntrack --ctstate INVALID -j LOG --log-prefix INVALID #LOG INVLID connections, possible nmap XMAS or NUL scan
+iptables -A INPUT -m conntrack --ctstate INVALID -j test #send suspicious INVALID traffic to test table
+iptables -A INPUT -s 127.0.0.1/32 ! -i lo -j LOG --log-prefix SPOOFED_LOCAL #LOG spoofed local host
+iptables -A INPUT -s 127.0.0.1/32 ! -i lo -j DROP #block spoofed localhost
+iptables -A INPUT -p tcp -j REJECT --reject-with tcp-reset #block any remaining TCP traffic
+iptables -A INPUT -p udp -j REJECT --reject-with icmp-port-unreachable #block any remaining udp traffic
+
+##TEST Table
+iptables -A test -m set --match-set internalnet src -j RETURN #double check we aren't accidently blocking LAN traffic
+iptables -A test -j LOG --log-prefix BADGUYS #LOG suspicious traffic
+iptables -A test -j SET --add-set badguys src #add source IP of suspicious traffic to the badguys ipset
+iptables -A test -p tcp -j REJECT --reject-with tcp-reset #block suspicious tcp traffic
+iptables -A test -p udp -j REJECT --reject-with icmp-port-unreachable #block suspicious udp traffic

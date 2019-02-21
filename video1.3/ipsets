@@ -1,0 +1,23 @@
+## Below is the ipset commands shown in the video
+
+ipset create goodguys hash:ip
+ipset add goodguys 10.0.0.133
+ipset create badguys hash:ip 
+ipset create dns hash:ip 
+ipset add dns 8.8.2.2
+ipset add dns 8.8.8.8
+ipset create lantcp bitmap:port range 1-65535
+ipset add lantcp 22
+ipset add lantcp 80
+ipset add lantcp 139
+ipset add lantcp 445
+ipset add lantcp 3306
+ipset create lanudp bitmap:port range 1-65535
+ipset add lanudp 68
+ipset add lanudp 137
+ipset add lanudp 138
+ipset create internalnet bitmap:ip range 10.0.2.0/24
+ipset add internalnet 10.0.2.0/24
+ipset create publictcp bitmap:port range 1-65535
+ipset add publictcp 22
+ipset add publictcp 80
