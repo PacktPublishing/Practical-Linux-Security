@@ -1,0 +1,53 @@
+##Be careful - You may need any one of these, Remove, or comment out any packages you need.
+Package: build-essential gcc
+Pin: release *
+Pin-Priority: -1
+
+Package: g++
+Pin: release *
+Pin-Priority: -1
+
+Package: wget
+Pin: release *
+Pin-Priority: -1
+
+Package: curl
+Pin: release *
+Pin-Priority: -1
+
+Package: lynx
+Pin: release *
+Pin-Priority: -1
+
+Package: netcat
+Pin: release *
+Pin-Priority: -1
+
+Package: make
+Pin: release *
+Pin-Priority: -1
+
+Package: automake
+Pin: release *
+Pin-Priority: -1
+
+Package: ruby
+Pin: release *
+Pin-Priority: -1
+
+Package: perl
+Pin: release *
+Pin-Priority: -1
+
+Package: python
+Pin: release *
+Pin-Priority: -1
+
+Package: nmap
+Pin: release *
+Pin-Priority: -1
+
+Package: tcpdump
+Pin: release *
+Pin-Priority: -1
+

@@ -1,0 +1,23 @@
+## Below is the ipset commands shown in the video
+
+ipset create goodguys hash:ip				#create a set for trusted IP addresses
+ipset add goodguys 10.0.0.133				#add an ip to the list of trusted IP addresses
+ipset create badguys hash:ip 				#Create a set to hold malicious IP addresses
+ipset create dns hash:ip 				#Create a set for trusted DNS resolvers
+ipset add dns 8.8.2.2					#add IP to list of DNS resolvers
+ipset add dns 8.8.8.8					#add IP to list of DNS resolvers
+ipset create lantcp bitmap:port range 1-65535		#Create a set for open LAN TCP ports
+ipset add lantcp 22					#Add port 
+ipset add lantcp 80					#Add port
+ipset add lantcp 139					#Add port
+ipset add lantcp 445					#Add port
+ipset add lantcp 3306					#Add port
+ipset create lanudp bitmap:port range 1-65535		#Create a set for open LAN UDP ports
+ipset add lanudp 68					#Add port
+ipset add lanudp 137					#Add port
+ipset add lanudp 138					#Add port
+ipset create internalnet bitmap:ip range 10.0.2.0/24	#Create a set for Internal IP addresses, use bitmap:ip to save memory for an IP range
+ipset add internalnet 10.0.2.0/24			#Add the entire subnet to the set
+ipset create publictcp bitmap:port range 1-65535	#Create a set of open Public TCP ports
+ipset add publictcp 22					#Add port
+ipset add publictcp 80					#Add port

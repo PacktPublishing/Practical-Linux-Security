@@ -1,0 +1,10 @@
+   1  sudo apt install clamav clamav-daemon
+   2  sudo freshclam
+   3  sudo vim /etc/clamav/clamd.conf
+   4  sudo apt-install apparmor-utils
+   5  sudo apt install apparmor-utils
+   6  sudo aa-complain clamd
+   7  sudo service clamav-freshclam start
+   8  sudo service clamav-daemon start
+   9  sudo tail -f /var/log/clamav/clamav.log
+   10  wget https://secure.eicar.org/eicar.com.txt
